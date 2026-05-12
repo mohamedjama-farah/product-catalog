@@ -114,8 +114,8 @@
                 <configuration>
                     <excludes>
                         <exclude>**/model/*.*</exclude>
-                        <exclude>**/Category.java</exclude>
-                        <exclude>**/CategoryMongoRepository.java</exclude>
+                        <exclude>**/Category.class</exclude>
+                        <exclude>**/CategoryMongoRepository.class</exclude>
                         <exclude>**/ProductCatalogApp.*</exclude>
                     </excludes>
                 </configuration>
