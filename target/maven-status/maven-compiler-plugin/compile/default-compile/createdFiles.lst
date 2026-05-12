@@ -1,0 +1,11 @@
+com/example/productcatalog/model/Product.class
+com/example/productcatalog/repository/mongo/CategoryMongoRepository.class
+com/example/productcatalog/view/swing/ProductCatalogSwingView$1.class
+com/example/productcatalog/controller/ProductCatalogController.class
+com/example/productcatalog/repository/CategoryRepository.class
+com/example/productcatalog/repository/mongo/ProductMongoRepository.class
+com/example/productcatalog/repository/ProductRepository.class
+com/example/productcatalog/ProductCatalogApp.class
+com/example/productcatalog/model/Category.class
+com/example/productcatalog/view/ProductCatalogView.class
+com/example/productcatalog/view/swing/ProductCatalogSwingView.class

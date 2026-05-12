@@ -1,0 +1,10 @@
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/ProductCatalogApp.java
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/controller/ProductCatalogController.java
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/model/Category.java
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/model/Product.java
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/repository/CategoryRepository.java
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/repository/ProductRepository.java
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/repository/mongo/CategoryMongoRepository.java
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/repository/mongo/ProductMongoRepository.java
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/view/ProductCatalogView.java
+/Users/mahamedfaarah/Desktop/product-catalog/src/main/java/com/example/productcatalog/view/swing/ProductCatalogSwingView.java
