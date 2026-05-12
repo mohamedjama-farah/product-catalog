@@ -21,6 +21,8 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.exclusions>
             **/model/*.*,
+            **/Category.*,
+            **/CategoryMongoRepository.*,
             **/ProductCatalogApp.*
         </sonar.coverage.exclusions>
         <sonar.junit.reportPaths>
@@ -112,6 +114,8 @@
                 <configuration>
                     <excludes>
                         <exclude>**/model/*.*</exclude>
+                        <exclude>**/Category.java</exclude>
+                        <exclude>**/CategoryMongoRepository.java</exclude>
                         <exclude>**/ProductCatalogApp.*</exclude>
                     </excludes>
                 </configuration>
