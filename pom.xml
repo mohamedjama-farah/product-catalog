@@ -17,17 +17,23 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <sonar.organization>mohamedjama-farah-github</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.coverage.exclusions>
+            **/model/*.*,
+            **/ProductCatalogApp.*
+        </sonar.coverage.exclusions>
+        <sonar.junit.reportPaths>
+            ${project.build.directory}/surefire-reports
+        </sonar.junit.reportPaths>
     </properties>
 
     <dependencies>
-        <!-- MongoDB Driver -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
             <version>4.11.1</version>
         </dependency>
-
-        <!-- Testcontainers -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
@@ -40,32 +46,24 @@
             <version>1.19.3</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- JUnit 4 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>4.11.0</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- AssertJ -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.26.3</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- AssertJ-Swing -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-swing-junit</artifactId>
@@ -76,7 +74,6 @@
 
     <build>
         <plugins>
-            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -87,7 +84,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Surefire (Unit Tests) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -98,7 +94,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Failsafe (Integration Tests) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -113,7 +108,6 @@
                 </executions>
             </plugin>
 
-            <!-- JaCoCo Code Coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -127,7 +121,6 @@
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
-                            <goal>prepare-agent-integration</goal>
                         </goals>
                     </execution>
                     <execution>
@@ -135,13 +128,11 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
-                            <goal>report-integration</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
 
-            <!-- PIT Mutation Testing -->
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
@@ -157,7 +148,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Exec Plugin - Easy run from terminal -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
