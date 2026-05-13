@@ -5,6 +5,7 @@ import com.example.productcatalog.repository.mongo.ProductMongoRepository;
 import com.example.productcatalog.view.swing.ProductCatalogSwingView;
 
 import javax.swing.SwingUtilities;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProductCatalogApp {
@@ -39,7 +40,7 @@ public class ProductCatalogApp {
                 LOGGER.info("Application started!");
 
             } catch (Exception e) {
-                LOGGER.severe("Error: " + e.getMessage());
+                LOGGER.log(Level.SEVERE, "Error: " + e.getMessage(), e);
             }
         });
     }
@@ -47,22 +48,21 @@ public class ProductCatalogApp {
     private static void parseArguments(String[] args) {
         int i = 0;
         while (i < args.length) {
-            switch (args[i]) {
+            String arg = args[i];
+            switch (arg) {
                 case "--mongo-host":
-                    mongoHost = args[++i];
+                    mongoHost = args[i + 1];
+                    i++;
                     break;
                 case "--mongo-port":
-                    mongoPort = Integer.parseInt(args[++i]);
+                    mongoPort = Integer.parseInt(args[i + 1]);
+                    i++;
                     break;
                 case "--db-name":
-                    databaseName = args[++i];
-                    break;
-                case "--db-collection":
-                    // Ignored - collection name is handled in repository
-                    ++i;
+                    databaseName = args[i + 1];
+                    i++;
                     break;
                 default:
-                    ++i;
                     break;
             }
             i++;
