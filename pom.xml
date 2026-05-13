@@ -19,6 +19,9 @@
         <maven.compiler.target>17</maven.compiler.target>
         <sonar.organization>mohamedjama-farah</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.build.directory}/site/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.coverage.exclusions>
             **/model/*.*,
             **/Category.*,
