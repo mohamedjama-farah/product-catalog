@@ -143,9 +143,7 @@ public class ProductCatalogSwingView extends JFrame implements ProductCatalogVie
 
         btnDeleteSelected.addActionListener(e -> {
             Product selectedProduct = listProducts.getSelectedValue();
-            if (selectedProduct != null) {
-                productCatalogController.deleteProduct(selectedProduct);
-            }
+            productCatalogController.deleteProduct(selectedProduct);
         });
     }
 

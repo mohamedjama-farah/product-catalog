@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ProductMongoRepository implements ProductRepository {
 
-    private final MongoClient mongoClient;
+    private MongoClient mongoClient;
     private final MongoCollection<Document> collection;
 
     public ProductMongoRepository(String connectionString, String databaseName) {
@@ -68,6 +68,7 @@ public class ProductMongoRepository implements ProductRepository {
     public void close() {
         if (mongoClient != null) {
             mongoClient.close();
+        mongoClient = null;
         }
     }
 }

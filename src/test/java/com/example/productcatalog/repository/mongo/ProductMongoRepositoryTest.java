@@ -65,4 +65,11 @@ public class ProductMongoRepositoryTest {
         assertNotNull(found);
         assertEquals("Keyboard", found.getName());
     }
+
+    @Test
+    public void testCloseCanBeCalledMultipleTimes() {
+        repository.close();
+        repository.close();
+    }
+
 }

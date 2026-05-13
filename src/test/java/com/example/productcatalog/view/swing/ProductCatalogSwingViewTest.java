@@ -7,10 +7,11 @@ import static org.mockito.Mockito.timeout;
 import java.util.Arrays;
 import javax.swing.DefaultListModel;
 
-import org.assertj.swing.edt.GuiActionRunnable;
+import org.assertj.swing.annotation.GUITest;
+import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
-import org.assertj.swing.core.matcher.JButtonMatcher;
+import org.assertj.swing.fixture.JButtonFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Test;
@@ -37,30 +38,36 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
     @Override
     protected void onSetUp() {
         closeable = MockitoAnnotations.openMocks(this);
-        GuiActionRunner.execute((GuiActionRunnable) () -> {
+        GuiActionRunner.execute(() -> {
             productCatalogSwingView = new ProductCatalogSwingView();
             productCatalogSwingView.setProductCatalogController(productCatalogController);
+            return productCatalogSwingView;
         });
         window = new FrameFixture(robot(), productCatalogSwingView);
         window.show();
     }
 
     @Override
-    public void onTearDown() {
-        if (closeable != null) {
-            try { closeable.close(); } catch (Exception e) { }
-        }
-        if (window != null) {
-            window.cleanUp();
-        }
+    protected void onTearDown() throws Exception {
+        closeable.close();
     }
 
-    @Test
+    private JButtonFixture addButton() {
+        return window.button(JButtonMatcher.withText("Add"));
+    }
+
+    private JButtonFixture deleteButton() {
+        return window.button(JButtonMatcher.withText("Delete Selected"));
+    }
+
+    @Test @GUITest
     public void testControlsInitialStates() {
         window.textBox("idTextBox").requireEnabled();
         window.textBox("nameTextBox").requireEnabled();
         window.textBox("priceTextBox").requireEnabled();
         window.textBox("categoryIdTextBox").requireEnabled();
+        addButton().requireDisabled();
+        deleteButton().requireDisabled();
         window.list("productList");
         window.label("errorMessageLabel").requireText(" ");
     }
@@ -71,33 +78,63 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         window.textBox("nameTextBox").enterText("Laptop");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
-        assertThat(window).isNotNull();
+        addButton().requireEnabled();
     }
 
     @Test
-    public void testWhenAFieldIsBlankThenAddButtonShouldBeDisabled() {
+    public void testWhenIdFieldIsBlankThenAddButtonShouldBeDisabled() {
+        window.textBox("idTextBox").enterText(" ");
+        window.textBox("nameTextBox").enterText("Laptop");
+        window.textBox("priceTextBox").enterText("999.99");
+        window.textBox("categoryIdTextBox").enterText("cat1");
+        addButton().requireDisabled();
+    }
+
+    @Test
+    public void testWhenNameFieldIsBlankThenAddButtonShouldBeDisabled() {
         window.textBox("idTextBox").enterText("1");
         window.textBox("nameTextBox").enterText(" ");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
-        assertThat(window).isNotNull();
+        addButton().requireDisabled();
+    }
+
+    @Test
+    public void testDeleteButtonDisabledWhenNothingSelected() {
+        Product p1 = new Product("1", "Laptop", 999.99, "cat1");
+        GuiActionRunner.execute(() ->
+            productCatalogSwingView.getListProductsModel().addElement(p1)
+        );
+        deleteButton().requireDisabled();
     }
 
     @Test
     public void testDeleteButtonEnabledWhenProductSelected() {
-        GuiActionRunner.execute((GuiActionRunnable) () ->
+        GuiActionRunner.execute(() ->
             productCatalogSwingView.getListProductsModel()
                 .addElement(new Product("1", "Laptop", 999.99, "cat1"))
         );
         window.list("productList").selectItem(0);
-        assertThat(window).isNotNull();
+        deleteButton().requireEnabled();
+    }
+
+    @Test
+    public void testDeleteButtonDisabledAfterClearingSelection() {
+        Product p1 = new Product("1", "Laptop", 999.99, "cat1");
+        GuiActionRunner.execute(() ->
+            productCatalogSwingView.getListProductsModel().addElement(p1)
+        );
+        window.list("productList").selectItem(0);
+        deleteButton().requireEnabled();
+        window.list("productList").clearSelection();
+        deleteButton().requireDisabled();
     }
 
     @Test
     public void testsShowAllProductsShouldAddProductsToTheList() {
         Product p1 = new Product("1", "Laptop", 999.99, "cat1");
         Product p2 = new Product("2", "Phone", 499.99, "cat2");
-        GuiActionRunner.execute((GuiActionRunnable) () ->
+        GuiActionRunner.execute(() ->
             productCatalogSwingView.showAllProducts(Arrays.asList(p1, p2))
         );
         String[] listContents = window.list().contents();
@@ -107,7 +144,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
     @Test
     public void testShowErrorShouldShowTheMessageInTheErrorLabel() {
         Product product = new Product("1", "Laptop", 999.99, "cat1");
-        GuiActionRunner.execute((GuiActionRunnable) () ->
+        GuiActionRunner.execute(() ->
             productCatalogSwingView.showError("error message", product)
         );
         window.label("errorMessageLabel")
@@ -117,7 +154,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
     @Test
     public void testProductAddedShouldAddToTheListAndResetErrorLabel() {
         Product product = new Product("1", "Laptop", 999.99, "cat1");
-        GuiActionRunner.execute((GuiActionRunnable) () ->
+        GuiActionRunner.execute(() ->
             productCatalogSwingView.productAdded(product)
         );
         String[] listContents = window.list().contents();
@@ -129,12 +166,12 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
     public void testProductRemovedShouldRemoveFromTheListAndResetErrorLabel() {
         Product p1 = new Product("1", "Laptop", 999.99, "cat1");
         Product p2 = new Product("2", "Phone", 499.99, "cat2");
-        GuiActionRunner.execute((GuiActionRunnable) () -> {
+        GuiActionRunner.execute(() -> {
             DefaultListModel<Product> model = productCatalogSwingView.getListProductsModel();
             model.addElement(p1);
             model.addElement(p2);
         });
-        GuiActionRunner.execute((GuiActionRunnable) () ->
+        GuiActionRunner.execute(() ->
             productCatalogSwingView.productRemoved(p1)
         );
         String[] listContents = window.list().contents();
@@ -148,7 +185,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         window.textBox("nameTextBox").enterText("Laptop");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
-        window.button(JButtonMatcher.withText("Add")).click();
+        addButton().click();
         verify(productCatalogController, timeout(TIMEOUT))
             .newProduct(new Product("1", "Laptop", 999.99, "cat1"));
     }
@@ -157,13 +194,13 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
     public void testDeleteButtonShouldDelegateToControllerDeleteProduct() {
         Product p1 = new Product("1", "Laptop", 999.99, "cat1");
         Product p2 = new Product("2", "Phone", 499.99, "cat2");
-        GuiActionRunner.execute((GuiActionRunnable) () -> {
+        GuiActionRunner.execute(() -> {
             DefaultListModel<Product> model = productCatalogSwingView.getListProductsModel();
             model.addElement(p1);
             model.addElement(p2);
         });
         window.list("productList").selectItem(1);
-        window.button(JButtonMatcher.withText("Delete Selected")).click();
+        deleteButton().click();
         verify(productCatalogController, timeout(TIMEOUT))
             .deleteProduct(p2);
     }
