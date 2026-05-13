@@ -39,7 +39,7 @@ public class ProductCatalogSwingView extends JFrame implements ProductCatalogVie
 
     public ProductCatalogSwingView() {
         setTitle("Product Catalog");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(600, 500);
         setLocationRelativeTo(null);
 

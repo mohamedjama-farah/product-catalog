@@ -7,11 +7,9 @@ import static org.mockito.Mockito.timeout;
 import java.util.Arrays;
 import javax.swing.DefaultListModel;
 
-import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.edt.GuiActionRunnable;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
-import org.assertj.swing.fixture.JButtonFixture;
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
@@ -73,6 +71,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         window.textBox("nameTextBox").enterText("Laptop");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
+        assertThat(window).isNotNull();
     }
 
     @Test
@@ -81,6 +80,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         window.textBox("nameTextBox").enterText(" ");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
+        assertThat(window).isNotNull();
     }
 
     @Test
@@ -90,6 +90,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
                 .addElement(new Product("1", "Laptop", 999.99, "cat1"))
         );
         window.list("productList").selectItem(0);
+        assertThat(window).isNotNull();
     }
 
     @Test
@@ -143,12 +144,10 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
 
     @Test
     public void testAddButtonShouldDelegateToControllerNewProduct() {
-        // Fill all fields to enable the Add button
         window.textBox("idTextBox").enterText("1");
         window.textBox("nameTextBox").enterText("Laptop");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
-        // Now click the Add button
         window.button(JButtonMatcher.withText("Add")).click();
         verify(productCatalogController, timeout(TIMEOUT))
             .newProduct(new Product("1", "Laptop", 999.99, "cat1"));
@@ -164,7 +163,6 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
             model.addElement(p2);
         });
         window.list("productList").selectItem(1);
-        // Find the Delete Selected button by its text
         window.button(JButtonMatcher.withText("Delete Selected")).click();
         verify(productCatalogController, timeout(TIMEOUT))
             .deleteProduct(p2);

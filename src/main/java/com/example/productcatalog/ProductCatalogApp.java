@@ -5,37 +5,21 @@ import com.example.productcatalog.repository.mongo.ProductMongoRepository;
 import com.example.productcatalog.view.swing.ProductCatalogSwingView;
 
 import javax.swing.SwingUtilities;
+import java.util.logging.Logger;
 
 public class ProductCatalogApp {
 
+    private static final Logger LOGGER = Logger.getLogger(ProductCatalogApp.class.getName());
     private static String mongoHost = "localhost";
     private static int mongoPort = 27017;
     private static String databaseName = "productcatalog";
-    private static String collectionName = "products";
 
     public static void main(String[] args) {
-        // Parse command line arguments
-        for (int i = 0; i < args.length; i++) {
-            switch (args[i]) {
-                case "--mongo-host":
-                    mongoHost = args[++i];
-                    break;
-                case "--mongo-port":
-                    mongoPort = Integer.parseInt(args[++i]);
-                    break;
-                case "--db-name":
-                    databaseName = args[++i];
-                    break;
-                case "--db-collection":
-                    collectionName = args[++i];
-                    break;
-            }
-        }
+        parseArguments(args);
 
-        System.out.println("Starting Product Catalog...");
-        System.out.println("Connecting to MongoDB at " + mongoHost + ":" + mongoPort);
+        LOGGER.info("Starting Product Catalog...");
+        LOGGER.info("Connecting to MongoDB at " + mongoHost + ":" + mongoPort);
 
-        // Use invokeLater to run GUI on EDT
         SwingUtilities.invokeLater(() -> {
             try {
                 String connectionString = "mongodb://" + mongoHost + ":" + mongoPort;
@@ -52,12 +36,36 @@ public class ProductCatalogApp {
                 view.setVisible(true);
                 controller.allProducts();
 
-                System.out.println("Application started!");
+                LOGGER.info("Application started!");
 
             } catch (Exception e) {
-                System.err.println("Error: " + e.getMessage());
-                e.printStackTrace();
+                LOGGER.severe("Error: " + e.getMessage());
             }
         });
+    }
+
+    private static void parseArguments(String[] args) {
+        int i = 0;
+        while (i < args.length) {
+            switch (args[i]) {
+                case "--mongo-host":
+                    mongoHost = args[++i];
+                    break;
+                case "--mongo-port":
+                    mongoPort = Integer.parseInt(args[++i]);
+                    break;
+                case "--db-name":
+                    databaseName = args[++i];
+                    break;
+                case "--db-collection":
+                    // Ignored - collection name is handled in repository
+                    ++i;
+                    break;
+                default:
+                    ++i;
+                    break;
+            }
+            i++;
+        }
     }
 }
