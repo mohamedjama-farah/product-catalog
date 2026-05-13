@@ -33,7 +33,7 @@ jobs:
       run: xvfb-run mvn clean verify
 
     - name: Run Coveralls
-      run: mvn coveralls:report -DrepoToken=${{ secrets.COVERALLS_REPO_TOKEN }}
+      run: mvn coveralls:report -DrepoToken=${{ secrets.COVERALLS_REPO_TOKEN }} -DserviceName=github -DserviceJobId=${{ github.run_id }}
 
     - name: Run SonarCloud analysis
       run: mvn sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
