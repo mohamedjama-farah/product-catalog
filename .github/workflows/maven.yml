@@ -21,10 +21,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Build and Test with Maven (Headless)
-      run: xvfb-run mvn clean verify
-
-    - name: SonarCloud Analysis
-      run: mvn sonar:sonar -Dsonar.organization=mohamedjama-farah -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+    - name: Build, Test, and SonarCloud Analysis
+      run: |
+        xvfb-run mvn verify sonar:sonar \
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
