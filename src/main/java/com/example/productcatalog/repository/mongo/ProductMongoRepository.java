@@ -15,11 +15,15 @@ import java.util.List;
 
 public class ProductMongoRepository implements ProductRepository {
 
-    private MongoClient mongoClient;
     private final MongoCollection<Document> collection;
 
     public ProductMongoRepository(String connectionString, String databaseName) {
-        this.mongoClient = MongoClients.create(connectionString);
+        MongoClient mongoClient = MongoClients.create(connectionString);
+        MongoDatabase database = mongoClient.getDatabase(databaseName);
+        this.collection = database.getCollection("products");
+    }
+
+    public ProductMongoRepository(MongoClient mongoClient, String databaseName) {
         MongoDatabase database = mongoClient.getDatabase(databaseName);
         this.collection = database.getCollection("products");
     }
@@ -45,9 +49,9 @@ public class ProductMongoRepository implements ProductRepository {
                 .append("name", product.getName())
                 .append("price", product.getPrice())
                 .append("categoryId", product.getCategoryId());
-
-        collection.replaceOne(Filters.eq("_id", product.getId()), doc, 
-                             new ReplaceOptions().upsert(true));
+        collection.replaceOne(
+            Filters.eq("_id", product.getId()), doc,
+            new ReplaceOptions().upsert(true));
         return product;
     }
 
@@ -63,12 +67,5 @@ public class ProductMongoRepository implements ProductRepository {
             doc.getDouble("price"),
             doc.getString("categoryId")
         );
-    }
-
-    public void close() {
-        if (mongoClient != null) {
-            mongoClient.close();
-        mongoClient = null;
-        }
     }
 }

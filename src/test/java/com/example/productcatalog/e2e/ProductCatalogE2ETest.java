@@ -54,8 +54,7 @@ public class ProductCatalogE2ETest extends AssertJSwingJUnitTestCase {
         com.example.productcatalog.ProductCatalogApp.main(new String[] {
             "--mongo-host", mongo.getHost(),
             "--mongo-port", String.valueOf(mongoPort),
-            "--db-name", "productcatalog",
-            "--db-collection", "products"
+            "--db-name", "productcatalog"
         });
 
         window = WindowFinder.findFrame(
