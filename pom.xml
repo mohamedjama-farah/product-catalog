@@ -22,7 +22,7 @@
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.build.directory}/site/jacoco/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.projectKey>com.example.product-catalog</sonar.projectKey>
+        <sonar.projectKey>mohamedjama-farah_product-catalog</sonar.projectKey>
         <sonar.coverage.exclusions>
             
             

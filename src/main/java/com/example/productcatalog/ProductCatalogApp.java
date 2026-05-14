@@ -10,46 +10,21 @@ import java.util.logging.Logger;
 
 public class ProductCatalogApp {
 
-    private static final Logger LOGGER = Logger.getLogger(ProductCatalogApp.class.getName());
-    private static String mongoHost = "localhost";
-    private static int mongoPort = 27017;
-    private static String databaseName = "productcatalog";
+    private static final Logger LOGGER =
+        Logger.getLogger(ProductCatalogApp.class.getName());
+
+    private static final String DEFAULT_HOST = "localhost";
+    private static final int DEFAULT_PORT = 27017;
+    private static final String DEFAULT_DB = "productcatalog";
 
     public static void main(String[] args) {
-        parseArguments(args);
+        String mongoHost = DEFAULT_HOST;
+        int mongoPort = DEFAULT_PORT;
+        String databaseName = DEFAULT_DB;
 
-        LOGGER.info("Starting Product Catalog...");
-        LOGGER.info("Connecting to MongoDB at " + mongoHost + ":" + mongoPort);
-
-        SwingUtilities.invokeLater(() -> {
-            try {
-                String connectionString = "mongodb://" + mongoHost + ":" + mongoPort;
-
-                ProductMongoRepository productRepo =
-                    new ProductMongoRepository(connectionString, databaseName);
-
-                ProductCatalogSwingView view = new ProductCatalogSwingView();
-
-                ProductCatalogController controller =
-                    new ProductCatalogController(productRepo, view);
-
-                view.setProductCatalogController(controller);
-                view.setVisible(true);
-                controller.allProducts();
-
-                LOGGER.info("Application started!");
-
-            } catch (Exception e) {
-                LOGGER.log(Level.SEVERE, "Error: " + e.getMessage(), e);
-            }
-        });
-    }
-
-    private static void parseArguments(String[] args) {
         int i = 0;
         while (i < args.length) {
-            String arg = args[i];
-            switch (arg) {
+            switch (args[i]) {
                 case "--mongo-host":
                     mongoHost = args[i + 1];
                     i++;
@@ -67,5 +42,27 @@ public class ProductCatalogApp {
             }
             i++;
         }
+
+        final String host = mongoHost;
+        final int port = mongoPort;
+        final String db = databaseName;
+
+        LOGGER.info("Starting Product Catalog...");
+
+        SwingUtilities.invokeLater(() -> {
+            try {
+                String connectionString = "mongodb://" + host + ":" + port;
+                ProductMongoRepository productRepo =
+                    new ProductMongoRepository(connectionString, db);
+                ProductCatalogSwingView view = new ProductCatalogSwingView();
+                ProductCatalogController controller =
+                    new ProductCatalogController(productRepo, view);
+                view.setProductCatalogController(controller);
+                view.setVisible(true);
+                controller.allProducts();
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "Error starting application", e);
+            }
+        });
     }
 }
