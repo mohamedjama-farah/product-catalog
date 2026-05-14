@@ -24,8 +24,8 @@
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.projectKey>com.example.product-catalog</sonar.projectKey>
         <sonar.coverage.exclusions>
-            **/model/*.*,
-            **/Category.*,
+            
+            
             
             **/ProductCatalogApp.*
         </sonar.coverage.exclusions>
@@ -117,10 +117,10 @@
                 <version>0.8.12</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/model/*.*</exclude>
-                        <exclude>**/Category.class</exclude>
+                        <!-- <exclude>**/model/*.*</exclude> -->
+                        <!-- <exclude>**/Category.class</exclude> -->
                         
-                        <exclude>**/ProductCatalogApp.*</exclude>
+                        <!-- <exclude>**/ProductCatalogApp.*</exclude> -->
                     </excludes>
                 </configuration>
                 <executions>
