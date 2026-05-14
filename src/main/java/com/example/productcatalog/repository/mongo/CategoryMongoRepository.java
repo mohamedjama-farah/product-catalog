@@ -20,8 +20,18 @@ public class CategoryMongoRepository implements CategoryRepository {
 
     public CategoryMongoRepository(String connectionString, String databaseName) {
         this.mongoClient = MongoClients.create(connectionString);
-        MongoDatabase database = mongoClient.getDatabase(databaseName);
+        MongoDatabase database = this.mongoClient.getDatabase(databaseName);
         this.collection = database.getCollection("categories");
+    }
+
+    public CategoryMongoRepository(MongoClient mongoClient, String databaseName) {
+        this.mongoClient = mongoClient;
+        MongoDatabase database = this.mongoClient.getDatabase(databaseName);
+        this.collection = database.getCollection("categories");
+    }
+
+    public MongoClient getMongoClient() {
+        return mongoClient;
     }
 
     @Override
@@ -43,9 +53,9 @@ public class CategoryMongoRepository implements CategoryRepository {
     public Category save(Category category) {
         Document doc = new Document("_id", category.getId())
                 .append("name", category.getName());
-
-        collection.replaceOne(Filters.eq("_id", category.getId()), doc, 
-                             new ReplaceOptions().upsert(true));
+        collection.replaceOne(
+            Filters.eq("_id", category.getId()), doc,
+            new ReplaceOptions().upsert(true));
         return category;
     }
 
@@ -59,11 +69,5 @@ public class CategoryMongoRepository implements CategoryRepository {
             doc.getString("_id"),
             doc.getString("name")
         );
-    }
-
-    public void close() {
-        if (mongoClient != null) {
-            mongoClient.close();
-        }
     }
 }
