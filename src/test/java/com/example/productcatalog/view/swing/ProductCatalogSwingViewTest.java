@@ -180,7 +180,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
     }
 
     @Test
-    @Ignore("Fails on CI virtual display")
+    
     public void IGNORED_testAddButtonShouldDelegateToControllerNewProduct() {
         window.textBox("idTextBox").enterText("1");
         window.textBox("nameTextBox").enterText("Laptop");
