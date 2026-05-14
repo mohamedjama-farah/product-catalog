@@ -68,4 +68,14 @@ public class ProductMongoRepositoryTest {
         Product found = repository.findById("notexist");
         assertNull(found);
     }
+
+    @Test
+    public void testStringConstructorCreatesRepository() {
+        String connectionString = mongoDBContainer.getReplicaSetUrl();
+        ProductMongoRepository repo =
+            new ProductMongoRepository(connectionString, "testdb2");
+        assertNotNull(repo);
+        assertNotNull(repo.getMongoClient());
+        repo.getMongoClient().close();
+    }
 }
