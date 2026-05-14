@@ -26,7 +26,7 @@
         <sonar.coverage.exclusions>
             **/model/*.*,
             **/Category.*,
-            **/CategoryMongoRepository.*,
+            
             **/ProductCatalogApp.*
         </sonar.coverage.exclusions>
         <sonar.junit.reportPaths>
@@ -119,7 +119,7 @@
                     <excludes>
                         <exclude>**/model/*.*</exclude>
                         <exclude>**/Category.class</exclude>
-                        <exclude>**/CategoryMongoRepository.class</exclude>
+                        
                         <exclude>**/ProductCatalogApp.*</exclude>
                     </excludes>
                 </configuration>
