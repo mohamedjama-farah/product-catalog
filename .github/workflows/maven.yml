@@ -21,9 +21,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Build, Test, and SonarCloud Analysis
+    - name: Build, Test, Coveralls, and SonarCloud
       run: |
-        xvfb-run mvn verify sonar:sonar \
+        xvfb-run mvn verify coveralls:report sonar:sonar \
+          -DrepoToken=${{ secrets.COVERALLS_REPO_TOKEN }} \
           -Dsonar.token=${{ secrets.SONAR_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
