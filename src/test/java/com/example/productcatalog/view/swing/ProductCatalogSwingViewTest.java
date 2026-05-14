@@ -79,7 +79,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         window.textBox("nameTextBox").enterText("Laptop");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
-        addButton().requireEnabled();
+        assertThat(addButton().isEnabled()).isTrue();
     }
 
     @Test
@@ -88,7 +88,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         window.textBox("nameTextBox").enterText("Laptop");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
-        addButton().requireDisabled();
+        assertThat(addButton().isEnabled()).isFalse();
     }
 
     @Test
@@ -97,7 +97,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         window.textBox("nameTextBox").enterText(" ");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
-        addButton().requireDisabled();
+        assertThat(addButton().isEnabled()).isFalse();
     }
 
     @Test
@@ -106,7 +106,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         GuiActionRunner.execute(() ->
             productCatalogSwingView.getListProductsModel().addElement(p1)
         );
-        deleteButton().requireDisabled();
+        assertThat(deleteButton().isEnabled()).isFalse();
     }
 
     @Test
@@ -116,7 +116,7 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
                 .addElement(new Product("1", "Laptop", 999.99, "cat1"))
         );
         window.list("productList").selectItem(0);
-        deleteButton().requireEnabled();
+        assertThat(deleteButton().isEnabled()).isTrue();
     }
 
     @Test
@@ -126,9 +126,9 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
             productCatalogSwingView.getListProductsModel().addElement(p1)
         );
         window.list("productList").selectItem(0);
-        deleteButton().requireEnabled();
+        assertThat(deleteButton().isEnabled()).isTrue();
         window.list("productList").clearSelection();
-        deleteButton().requireDisabled();
+        assertThat(deleteButton().isEnabled()).isFalse();
     }
 
     @Test
@@ -205,5 +205,6 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         deleteButton().click();
         verify(productCatalogController, timeout(TIMEOUT))
             .deleteProduct(p2);
+        assertThat(window.list("productList").contents()).isNotEmpty();
     }
 }

@@ -70,7 +70,7 @@ public class ProductTest {
     public void testHashCode() {
         Product p1 = new Product("1", "Laptop", 999.99, "cat1");
         Product p2 = new Product("1", "Phone", 499.99, "cat2");
-        assertThat(p1.hashCode()).isEqualTo(p2.hashCode());
+        assertThat(p1).hasSameHashCodeAs(p2);
     }
 
     @Test

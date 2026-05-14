@@ -124,10 +124,7 @@
                 <version>0.8.12</version>
                 <configuration>
                     <excludes>
-                        <!-- <exclude>**/model/*.*</exclude> -->
-                        <!-- <exclude>**/Category.class</exclude> -->
-                        
-                        <!-- <exclude>**/ProductCatalogApp.*</exclude> -->
+                        <exclude>**/ProductCatalogApp.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

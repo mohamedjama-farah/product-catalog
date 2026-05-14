@@ -1,7 +1,6 @@
 package com.example.productcatalog.controller;
 
 import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.*;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 

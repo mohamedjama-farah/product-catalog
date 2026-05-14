@@ -64,7 +64,7 @@ public class CategoryTest {
     public void testHashCode() {
         Category c1 = new Category("1", "Electronics");
         Category c2 = new Category("1", "Computers");
-        assertThat(c1.hashCode()).isEqualTo(c2.hashCode());
+        assertThat(c1).hasSameHashCodeAs(c2);
     }
 
     @Test
