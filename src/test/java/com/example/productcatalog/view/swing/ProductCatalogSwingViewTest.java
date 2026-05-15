@@ -63,14 +63,14 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
 
     @Test @GUITest
     public void testControlsInitialStates() {
-        window.textBox("idTextBox").requireEnabled();
-        window.textBox("nameTextBox").requireEnabled();
-        window.textBox("priceTextBox").requireEnabled();
-        window.textBox("categoryIdTextBox").requireEnabled();
-        addButton().requireDisabled();
-        deleteButton().requireDisabled();
-        window.list("productList");
-        window.label("errorMessageLabel").requireText(" ");
+        assertThat(window.textBox("idTextBox").isEnabled()).isTrue();
+        assertThat(window.textBox("nameTextBox").isEnabled()).isTrue();
+        assertThat(window.textBox("priceTextBox").isEnabled()).isTrue();
+        assertThat(window.textBox("categoryIdTextBox").isEnabled()).isTrue();
+        assertThat(addButton().isEnabled()).isFalse();
+        assertThat(deleteButton().isEnabled()).isFalse();
+        assertThat(window.list("productList").contents()).isEmpty();
+        assertThat(window.label("errorMessageLabel").text()).isEqualTo(" ");
     }
 
     @Test
