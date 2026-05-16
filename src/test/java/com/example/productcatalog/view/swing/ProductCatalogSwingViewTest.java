@@ -93,10 +93,10 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
 
     @Test
     public void testWhenNameFieldIsBlankThenAddButtonShouldBeDisabled() {
-        window.textBox("idTextBox").enterText("1");
         window.textBox("nameTextBox").enterText(" ");
         window.textBox("priceTextBox").enterText("999.99");
         window.textBox("categoryIdTextBox").enterText("cat1");
+        window.textBox("idTextBox").enterText("1");
         assertThat(addButton().isEnabled()).isFalse();
     }
 

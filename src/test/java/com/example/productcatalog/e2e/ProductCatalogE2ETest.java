@@ -81,12 +81,12 @@ public class ProductCatalogE2ETest extends AssertJSwingJUnitTestCase {
     @Test
     public void testAddProduct() {
         window.textBox("idTextBox").enterText("777");
-        window.textBox("nameTextBox").enterText("E2EProduct");
+        window.textBox("nameTextBox").enterText("TestProduct");
         window.textBox("priceTextBox").enterText("149.99");
         window.textBox("categoryIdTextBox").enterText("e2e");
         window.button(JButtonMatcher.withText("Add")).click();
         String[] contents = window.list("productList").contents();
         assertThat(contents)
-            .anySatisfy(s -> assertThat(s).contains("777", "E2EProduct"));
+            .anySatisfy(s -> assertThat(s).contains("777", "TestProduct"));
     }
 }
