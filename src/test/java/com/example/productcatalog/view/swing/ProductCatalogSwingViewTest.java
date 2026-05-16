@@ -202,8 +202,9 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
             model.addElement(p2);
         });
         window.list("productList").selectItem(1);
+        assertThat(window.list("productList").selection()).contains(p2.toString());
         deleteButton().click();
-        assertThat(verify(productCatalogController, timeout(TIMEOUT))
-            .deleteProduct(p2)).isNull();
+        verify(productCatalogController, timeout(TIMEOUT))
+            .deleteProduct(p2);
     }
 }
