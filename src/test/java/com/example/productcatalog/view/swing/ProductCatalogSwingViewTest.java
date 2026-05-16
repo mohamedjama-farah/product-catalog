@@ -148,8 +148,8 @@ public class ProductCatalogSwingViewTest extends AssertJSwingJUnitTestCase {
         GuiActionRunner.execute(() ->
             productCatalogSwingView.showError("error message", product)
         );
-        window.label("errorMessageLabel")
-            .requireText("error message: " + product);
+        assertThat(window.label("errorMessageLabel").text())
+            .isEqualTo("error message: " + product);
     }
 
     @Test
